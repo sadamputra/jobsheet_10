@@ -1,0 +1,43 @@
+package jobsheet_10;
+
+import java.util.Scanner;
+
+public class SIAKAD21 {
+    public static void main(String[] args) {
+        
+        Scanner scanner = new Scanner(System.in);
+        
+        int[][] nilai = new int[4][3];
+        String[] mataKuliah = {"Dasar Pemrograman", "Matematika", "CTPS"};
+        
+        for (int i = 0; i < 4; i++) {
+            System.out.println("Masukkan nilai untuk Siswa " + (i + 1) + ":");
+            for (int j = 0; j < 3; j++) {
+                System.out.print(mataKuliah[j] + ": ");
+                nilai[i][j] = scanner.nextInt();
+            }
+        }
+        
+        System.out.println("\nRata-rata nilai setiap siswa:");
+        for (int i = 0; i < 4; i++) {
+            int total = 0;
+            for (int j = 0; j < 3; j++) {
+                total += nilai[i][j];
+            }
+            double rataRataSiswa = total / 3.0;
+            System.out.printf("Rata-rata Siswa %d: %.2f%n", (i + 1), rataRataSiswa);
+        }
+
+        System.out.println("\nRata-rata nilai setiap mata kuliah:");
+        for (int j = 0; j < 3; j++) {
+            int total = 0;
+            for (int i = 0; i < 4; i++) {
+                total += nilai[i][j];
+            }
+            double rataRataMataKuliah = total / 4.0;
+            System.out.printf("Rata-rata %s: %.2f%n", mataKuliah[j], rataRataMataKuliah);
+        }
+
+        scanner.close();
+    }
+}
