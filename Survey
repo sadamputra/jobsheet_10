@@ -1,0 +1,114 @@
+package jobsheet_10;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+class Survey {
+    private ArrayList<HashMap<String, Double>> surveyData;
+    private ArrayList<String> questions;
+    private ArrayList<String> classes;
+
+    public Survey() {
+        this.surveyData = new ArrayList<>();
+        this.questions = new ArrayList<>();
+        this.classes = new ArrayList<>();
+    }
+
+    public void inputSurveyData() {
+        Scanner scanner = new Scanner(System.in);
+
+
+        System.out.print("Masukkan jumlah pertanyaan: ");
+        int numQuestions = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+        for (int i = 0; i < numQuestions; i++) {
+            System.out.print("Masukkan pertanyaan " + (i + 1) + ": ");
+            questions.add(scanner.nextLine());
+        }
+
+    
+        System.out.print("Masukkan jumlah kelas: ");
+        int numClasses = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+        for (int i = 0; i < numClasses; i++) {
+            System.out.print("Masukkan nama kelas " + (i + 1) + ": ");
+            classes.add(scanner.nextLine());
+        }
+
+        
+        System.out.print("Masukkan jumlah responden: ");
+        int numRespondents = scanner.nextInt();
+        for (int i = 0; i < numRespondents; i++) {
+            HashMap<String, Double> response = new HashMap<>();
+            System.out.print("Responden " + (i + 1) + ", masukkan kelas (1-" + numClasses + "): ");
+            int classNum = scanner.nextInt();
+            response.put("class", (double) classNum);
+
+            for (int j = 0; j < questions.size(); j++) {
+                System.out.print(questions.get(j) + ": ");
+                double value = scanner.nextDouble();
+                response.put("q" + j, value);
+            }
+            surveyData.add(response);
+        }
+    }
+
+    public void process() {
+        calculateClassAverages();
+        calculateQuestionAverages();
+        calculateOverallAverage();
+    }
+
+    private void calculateClassAverages() {
+        for (int classNum = 1; classNum <= classes.size(); classNum++) {
+            double sum = 0;
+            int count = 0;
+
+            for (HashMap<String, Double> response : surveyData) {
+                if (response.get("class").intValue() == classNum) {
+                    for (int j = 0; j < questions.size(); j++) {
+                        sum += response.get("q" + j);
+                        count++;
+                    }
+                }
+            }
+
+            double average = count > 0 ? sum / count : 0;
+            System.out.printf("Rata-rata kelas %s: %.2f%n", classes.get(classNum - 1), average);
+        }
+    }
+
+    private void calculateQuestionAverages() {
+        for (int i = 0; i < questions.size(); i++) {
+            double sum = 0;
+            int count = 0;
+
+            for (HashMap<String, Double> response : surveyData) {
+                if (response.containsKey("q" + i)) {
+                    sum += response.get("q" + i);
+                    count++;
+                }
+            }
+
+            double average = count > 0 ? sum / count : 0;
+            System.out.printf("Rata-rata pertanyaan %d: %.2f%n", (i + 1), average);
+        }
+    }
+
+    private void calculateOverallAverage() {
+        double sum = 0;
+        int count = 0;
+
+        for (HashMap<String, Double> response : surveyData) {
+            for (int j = 0; j < questions.size(); j++) {
+                sum += response.get("q" + j);
+                count++;
+            }
+        }
+
+        double average = count > 0 ? sum / count : 0;
+        System.out.printf("Rata-rata keseluruhan: %.2f%n", average);
+    }
+
+}
