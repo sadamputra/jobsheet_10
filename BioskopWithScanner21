@@ -1,0 +1,74 @@
+package jobsheet_10;
+
+import java.util.Scanner;
+
+public class BioskopWithScanner21 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String[][] penonton = new String[4][2];
+        int pilihan;
+        boolean isRunning = true;
+
+        while (isRunning) {
+        
+            System.out.println("\n=== Menu Bioskop ===");
+            System.out.println("1. Input data penonton");
+            System.out.println("2. Tampilkan daftar penonton");
+            System.out.println("3. Exit");
+            System.out.print("Pilih menu (1-3): ");
+            pilihan = scanner.nextInt();
+            scanner.nextLine(); 
+
+            switch (pilihan) {
+                case 1:
+                    
+                    boolean inputValid = false;
+                    while (!inputValid) {
+                        System.out.print("Masukkan nomor baris (1-4): ");
+                        int baris = scanner.nextInt() - 1; 
+                        System.out.print("Masukkan nomor kolom (1-2): ");
+                        int kolom = scanner.nextInt() - 1; 
+                        scanner.nextLine(); 
+                        
+                        if (baris < 0 || baris >= penonton.length || kolom < 0 || kolom >= penonton[baris].length) {
+                            System.out.println("Nomor baris atau kolom tidak valid. Silakan coba lagi.");
+                        } else if (penonton[baris][kolom] != null) {
+                        
+                            System.out.println("Kursi [" + (baris + 1) + "][" + (kolom + 1) + "] sudah terisi. Silakan pilih kursi lain.");
+                        } else {
+                            
+                            System.out.print("Masukkan nama penonton untuk kursi [" + (baris + 1) + "][" + (kolom + 1) + "]: ");
+                            penonton[baris][kolom] = scanner.nextLine();
+                            System.out.println("Data penonton telah diinput untuk kursi [" + (baris + 1) + "][" + (kolom + 1) + "].");
+                            inputValid = true;
+                        }
+                    }
+                    break;
+
+                case 2:
+                    
+                    System.out.println("\nDaftar Nama Penonton:");
+                    for (int i = 0; i < penonton.length; i++) {
+                        for (int j = 0; j < penonton[i].length; j++) {
+                            String namaPenonton = (penonton[i][j] != null) ? penonton[i][j] : "***";
+                            System.out.println("Kursi [" + (i + 1) + "][" + (j + 1) + "]: " + namaPenonton);
+                        }
+                    }
+                    break;
+
+                case 3:
+                    
+                    isRunning = false;
+                    System.out.println("Terima kasih! Program selesai.");
+                    break;
+
+                default:
+                    System.out.println("Pilihan tidak valid. Silakan pilih menu yang benar.");
+                    break;
+            }
+        }
+
+        
+        scanner.close();
+    }
+}
